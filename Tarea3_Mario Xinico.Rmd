@@ -1,0 +1,164 @@
+---
+title: "Tarea_3"
+author: "Mario Xinico"
+date: "05/03/2025"
+output: html_document
+---
+
+# PROBLEMA 1
+
+```{r setup, echo = FALSE, include = FALSE}
+###############CARGA DE LIBRERIAS 
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(rmarkdown)
+
+knitr::opts_chunk$set(echo = FALSE)
+```
+Un laboratorio afirma que una droga causa efectos secundarios en una proporción de 3 de cada 100 pacientes.
+Para contrastar esta afirmación, otro laboratorio elige al azar a 5 pacientes a los que aplica la droga.
+
+¿Cuál es la probabilidad de los siguientes sucesos?
+
+1 Ningún paciente tenga efectos secundarios
+
+2 Al menos dos tengan efectos secundarios
+
+3 ¿Cuál es el número medio de pacientes que espera laboratorio que sufran efectos secundarios si elige 100 pacientes al azar?
+
+Datos:
+p = 0.03
+n = 5 (número de pacientes)
+
+1. Probabilidad de que ningún paciente tenga afectos secundarios
+```{r echo=FALSE}
+# PROBABILIDAD DE 0 EFECTOS SECUNDARIOS
+
+P0 <- dbinom(0, size = 5, prob = 0.03)
+print(P0)
+knitr::kable(P0)
+```
+
+2. Probabilidad de que al menos dos tengan afectos secundarios
+```{r}
+# PROBABILIDAD DE 0 AFECTOS SECUNDARIOS
+P0 <- dbinom(0, size = 5, prob = 0.03)
+
+# PROBABILIDAD DE 1 AFECTO SECUNDARIO
+P1 <- dbinom(1, size = 5, prob = 0.03)
+
+# PROBABILIDAD DE AL MENOS 2
+P2 <- 1 - (P0 + P1)
+knitr::kable(P2)
+```
+
+3. Número medio de pacientes con efectos secundarios en 100 pacientes
+```{r}
+### VALOR ESPERADO 
+
+n <- 100
+p <- 0.03
+media <- n * p
+
+knitr::kable(media)
+``` 
+
+# PROBLEMA 2
+
+Una compañía telefónica recibe llamadas a razón de 4 por minuto. Calcular la probabilidad de:
+
+• Recibir 2 llamadas en un minuto
+
+• No recibir ninguna llamada en un minuto
+
+• Recibir menos de 3 llamadas en un minuto
+
+• Recibir más de 3 llamadas en un minuto
+
+Datos:
+λ = 4 (tasa promedio de llamadas por minuto)
+X variable aleatoria que representa el número de llamadas en un minuto
+
+1. Probabilidad de recibir 2 llamadas en un minuto
+
+```{r}
+p_prob2 <- dpois(2, lambda = 4)
+knitr::kable(p_prob2)
+```
+
+2. Probabilidad de no recibir ninguna llamada en un minuto
+```{r}
+p0_prob2 <- dpois(0, lambda = 4)
+knitr::kable(p0_prob2)
+```
+
+3. Probabilidad de recibir menos de 3 llamadas en un minuto
+```{r}
+p_menos_3 <- ppois(2, lambda = 4)
+knitr::kable(p_menos_3)
+```
+
+4. Probabilidad de recibir más de 3 llamadas en un minuto
+```{r}
+p_3_o_menos <- ppois(3, lambda = 4)
+p_mas_3 <- 1 - p_3_o_menos
+
+knitr::kable(p_mas_3)
+```
+
+# PROBLEMA 3
+
+La media de los pesos de 500 estudiantes de un colegio es 70 kg y la desviación
+típica 3 kg.
+
+Suponiendo que los pesos se distribuyen normalmente, hallar cuántos
+estudiantes pesan:
+
+1) Entre 60 kg y 75 kg
+
+2) Más de 90 kg
+
+3) Menos de 64 kg
+
+4) 64 kg
+
+Datos:
+
+μ = 70 kg
+σ = 3 kg
+muestra = 500 estudiantes
+
+
+1. Probabilidad entre 60 kg y 75 kg
+```{r}
+p_menos_75 <- pnorm(75, mean = 70, sd = 3)
+p_menos_60 <- pnorm(60, mean = 70, sd = 3)
+p_60_75 <- p_menos_75 - p_menos_60
+num_60_75 <- p_60_75 * 500
+knitr::kable(round(num_60_75))
+```
+
+2. Estudiantes que pesan mas de 90 kg
+```{r}
+p_mas_90 <- 1 - pnorm(90, mean = 70, sd = 3)
+num_mas_90 <- p_mas_90 * 500
+knitr::kable(round(num_mas_90))
+```
+
+3. Estudiantes que pesan menos de 64 kg
+
+```{r}
+p_menos_64 <- pnorm(64, mean = 70, sd = 3)
+num_menos_64 <- p_menos_64 * 500
+knitr::kable(round(num_menos_64))
+```
+
+4. Estudiantes que pesan exactamente 64 kg
+
+```{r}
+p_64 <- pnorm(64.5, mean = 70, sd = 3) - pnorm(63.5, mean = 70, sd = 3)
+num_64 <- p_64 * 500
+knitr::kable(num_64)
+```
+
